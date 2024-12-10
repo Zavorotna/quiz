@@ -1,6 +1,5 @@
 <?php
     require_once 'reg_check.php';
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">

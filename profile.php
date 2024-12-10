@@ -5,12 +5,14 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Document</title>
 </head>
+
 <body class="<?= $_COOKIE['theme'] ?? "" ?>">
     <h1>Профіль</h1>
     <div>
@@ -24,23 +26,35 @@
             </picture>
         </p>
     </div>
-    <a href="index.php">Go to tests</a>
+    <a class="<?= ($_SESSION['user']['login'] != 'admin') ? 'd-block' : 'd-none';?>" href="tests.php">Go to tests</a>
     <form action="profile.php" method="post">
         <button type="submit" name="theme" value="light">Light</button>
         <button type="submit" name="theme" value="dark">Dark</button>
     </form>
     <div class="results">
-        <!-- результати тестів таблицею
-            2) Всі результати тестів таблицею (дані із файла):
-            2.1) Кількість правильних відповідей
-            2.2) % правильних відповідей
-            2.3) Дата і час проходження тесту
-            3) Найкращий результат повинен бути виділеним
-            4) Підсумок таблиці - вирахуваний середній результат
-            5) Кнопка із функціоналом "Logout"
-            6) Кнопка зміни теми (світла-темна) 
-            додати можливість редагування профілю
-        -->
+        <table>
+            <thead class="<?= ($_SESSION['user']['login'] != 'admin') ? 'd-block' : 'd-none';?>">
+                <tr>
+                    <th>К-ть правильних відповідей</th>
+                    <th>% правильних відповідей</th>
+                    <th>Дата та час </th>
+                </tr>
+            </thead>
+            <thead  class="<?= ($_SESSION['user']['login'] == 'admin') ? 'd-block' : 'd-none';?>">
+                <tr>
+                    <th>Фото</th>
+                    <th>Логін</th>
+                    <th>Телефон</th>
+                    <th>Емейл</th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php require_once 'table_check.php'; ?>
+            </tbody>
+        </table>
     </div>
 </body>
+
 </html>

@@ -15,10 +15,9 @@ require_once 'tests_check.php';
     <title>Document</title>
 </head>
 <body class="<?= $_COOKIE['theme'] ?? "" ?>">
-<?php if(!$_SESSION['enter']['login']) {
-        header('Location: login.php');
+<?php if(!$_SESSION['user']['login']) {
+    header('Location: registration.php');
 } 
-
 ?>
 <form action="results.php" method="post">
     <?php foreach ($newQuestions as $q) { ?>

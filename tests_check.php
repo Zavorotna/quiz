@@ -65,7 +65,6 @@ $questions = [
         'correct' => 'час у секундах з 01.01.1970'
     ]
 ];
-// echo "<pre>";
 shuffle($questions);
 //foreach($questions as &$question) {
 //    shuffle($question['answer']);
@@ -85,24 +84,6 @@ for($i = 0; $i <= 4; $i++) {
 }
 
 $_SESSION['questionArr'] = $newQuestions;
-// echo "</pre>";
+
 ?>
-<!--<form action="checking.php" method="post">-->
-<!--    --><?php //foreach ($questions as $q) {
-//        shuffle($q['answer']); ?>
-<!--        <div>-->
-<!--            <p>-->
-<!--                --><?php //= $q['question']; ?>
-<!--            </p>-->
-<!--            --><?php //foreach ($q['answer'] as $ind => $ans) { ?>
-<!--                <p>-->
-<!--                    <label>-->
-<!--                        <input type="radio" name="--><?php //= $q['name'] ?><!--" value="--><?php //= $ans ?><!--" required>-->
-<!--                        --><?php //= $ans ?>
-<!--                    </label>-->
-<!--                </p>-->
-<!--            --><?php //} ?>
-<!--        </div>-->
-<!--    --><?php //} ?>
-<!--    <button type="submit">Відправити</button>-->
-<!--</form>-->
+
