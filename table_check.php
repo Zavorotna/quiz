@@ -10,6 +10,9 @@
             }
             $max = 100;
             foreach ($userResults as $result) {
+                // print_r($userResults);
+                $sumArr[] = $result[2];
+                $sum = round(array_sum($sumArr) / count($sumArr), 0);
                 if ($result[2] > $max) {
                     $max = $result[2];
                 }

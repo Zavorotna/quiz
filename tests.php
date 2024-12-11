@@ -14,28 +14,31 @@ require_once 'tests_check.php';
     <link rel="stylesheet" href="css/style.css">
     <title>Document</title>
 </head>
-<body class="<?= $_COOKIE['theme'] ?? "" ?>">
+<body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
 <?php if(!$_SESSION['user']['login']) {
     header('Location: registration.php');
 } 
 ?>
-<form action="results.php" method="post">
-    <?php foreach ($newQuestions as $q) { ?>
-        <div>
-            <p>
-                <?= $q['question']; ?>
-            </p>
-            <?php foreach ($q['answer'] as $ans) { ?>
+<h1>Тестування</h1>
+<div class="mask-blur">
+    <form action="results.php" method="post">
+        <?php foreach ($newQuestions as $q) { ?>
+            <div>
                 <p>
-                    <label>
-                        <input type="radio" name="answers[<?= $q['name'] ?>]" value="<?= $ans ?>" required>
-                        <?= $ans ?>
-                    </label>
+                    <?= $q['question']; ?>
                 </p>
-            <?php } ?>
-        </div>
-    <?php } ?>
-    <button type="submit">Відправити</button>
-</form>
+                <?php foreach ($q['answer'] as $ans) { ?>
+                    <p>
+                        <label>
+                            <input type="radio" name="answers[<?= $q['name'] ?>]" value="<?= $ans ?>" required>
+                            <?= $ans ?>
+                        </label>
+                    </p>
+                <?php } ?>
+            </div>
+        <?php } ?>
+        <button class="btn wrapper" type="submit">Відправити</button>
+    </form>
+</div>
 </body>
 </html>
