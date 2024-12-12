@@ -8,7 +8,7 @@
                     $userResults[] = $result;
                 }
             }
-            $max = 100;
+            $max = 0;
             foreach ($userResults as $result) {
                 // print_r($userResults);
                 $sumArr[] = $result[2];

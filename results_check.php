@@ -1,5 +1,6 @@
 <?php
 require_once 'functions.php';
+require_once 'enter_check.php';
 if(session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -25,4 +26,5 @@ if($_POST) {
     $resultsData[] = date('Y.m.d, h:i:s');
     // print_r($resultsData);
     file_rewrite('results', $resultsData);
+    
 }

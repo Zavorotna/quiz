@@ -14,7 +14,7 @@
     <title>Тестування студентів за програмою PHP Developer</title>
 </head>
 <body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
-    <div>
+    <div class=" <?= (!$isUser) ? "d-none" : "d-block" ?> ">
         <div class="flex-between items-center">
             <h1>Профіль</h1>
             <form class="theme-btn" action="profile.php" method="post">
