@@ -1,5 +1,5 @@
 <?php 
-require_once 'results_check.php'; 
+    require_once 'results_check.php'; 
 ?>
 <!doctype html>
 <html lang="en">

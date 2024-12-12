@@ -1,7 +1,7 @@
 <?php 
     if(isset($_POST['logout'])) {
-        session_destroy();
+        session_start();
         unset($_SESSION['user']);
         setcookie('theme');
-        header("Location: index.php");
+        session_destroy();
     }

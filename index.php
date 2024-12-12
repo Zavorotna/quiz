@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Тестування студентів за програмою PHP Developer</title>
 </head>
+<?php 
+    require_once "logout.php";
+?>
 <body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
     <div class="flex-center items-center d-flex h-100 main-page">
         <h1 class="w-50">Вітаю! Зареєструйтеся або увійдіть в аккаунт для проходження тестування</h1>

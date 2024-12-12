@@ -11,21 +11,20 @@
 </head>
 <body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
     <h1>Увійти</h1>
-    <div class="mask-blur">
-        <form class="wrapper <?= (!$noEnter) ? "d-none" : "" ?>" action="profile.php" method="post">
+    <div class="mask-blur enter-form">
+        <form class="wrapper" action="profile.php" method="post">
             <p>
                 <label>
-                    <input type="text" placeholder="Enter your login" name="login">
+                    <input type="text" placeholder="Введіть логін" name="login" required>
                 </label>
             </p>
             <p>
                 <label>
-                    <input type="password" placeholder="Enter your password" name="password">
+                    <input type="password" placeholder="Введіть пароль" name="password" required>
                 </label>
             </p>
-            <div class="wrapper d-flex flex-around items-center">
+            <div class="d-flex flex-around items-center">
                 <button class="btn" type="submit">Увійти</button>
-                <a class="btn <?= ($noEnter) ? "d-none" : "" ?>" href="registration.php">Зареєструватися</a>
             </div>
         </form>
     </div>

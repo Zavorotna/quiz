@@ -35,4 +35,28 @@
         return $data;
     }
   
+    //видалення
+    function file_rewrite_del($filename, $filterCallback) {
+        $file = 'csv/' . $filename . '.csv';
+        $tempFile = 'csv/' . $filename . '_temp.csv';
+        $result = false;
+    
+        $allUsers = fopen($file, 'r');
+        $afterDelUsers = fopen($tempFile, 'w');
+    
+        if ($allUsers && $afterDelUsers) {
+            while (($row = fgetcsv($allUsers)) !== false) {
+                if (!$filterCallback($row)) {
+                    fputcsv($afterDelUsers, $row);
+                }
+            }
+            fclose($allUsers);
+            fclose($afterDelUsers);
+            rename($tempFile, $file);
+            $result = true;
+        }
+    
+        return $result;
+    }
+    
 ?>
