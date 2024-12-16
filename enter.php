@@ -1,5 +1,5 @@
 <?php
-    require_once 'reg_check.php';
+    require_once 'enter_check.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,10 +12,10 @@
 <body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
     <h1>Увійти</h1>
     <div class="mask-blur enter-form">
-        <form class="wrapper" action="profile.php" method="post">
+        <form class="wrapper" action="" method="post">
             <p>
                 <label>
-                    <input type="text" placeholder="Введіть логін" name="login" required>
+                    <input type="text" placeholder="Введіть логін" name="login" value="<?= $_POST['login'] ?? '' ?>" required>
                 </label>
             </p>
             <p>
@@ -23,9 +23,9 @@
                     <input type="password" placeholder="Введіть пароль" name="password" required>
                 </label>
             </p>
-            <div class="d-flex flex-around items-center">
-                <button class="btn" type="submit">Увійти</button>
-            </div>
+            <span class="error"> <?= $errorEnter ?></span>
+            <a href="registration.php">Реєстрація</a>
+            <button class="btn" type="submit">Увійти</button>
         </form>
     </div>
 </body>

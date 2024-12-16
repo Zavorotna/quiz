@@ -2,7 +2,8 @@
     require_once 'theme.php';
     require_once 'enter_check.php';
     require_once 'delete_user.php';
-    
+    require_once 'table_check.php'; 
+    require_once "change_data_check.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <link rel="stylesheet" href="css/style.css">
     <title>Тестування студентів за програмою PHP Developer</title>
 </head>
@@ -48,50 +50,105 @@
                     <div class="d-flex items-center">
                         <p class="avatar">
                             <picture>
-                                <img src="img/<?= $_SESSION['user']['avatar'] ?>" alt="<?= $_SESSION['user']['avatar'] ?>">
+                                <img src="img/<?= $_SESSION['user']['avatar'] ? $_SESSION['user']['avatar'] : "ava.svg" ?>" alt="<?= $_SESSION['user']['avatar'] ?>">
                             </picture>
                         </p>
                         <div class="profile-info">
-                            <p class="name d-flex items-center"> <span>Ім'я</span> <span><?= $_SESSION['user']['login'] ?></span></p>
-                            <p class="email d-flex items-center"> <span>Email</span> <span><?= $_SESSION['user']['userEmail'] ?></span>
+                            <p class="name d-flex items-center">
+                                <span>Ім'я</span> 
+                                <span><?= $_SESSION['user']['login'] ?></span>
+
                             </p>
-                            <p class="phone d-flex items-center"> <span>Телефон</span> <span><?= $_SESSION['user']['userPhone'] ?></span></p>
+                            <p class="email d-flex items-center"> 
+                                <span>Email</span> 
+                                <span><?= $_SESSION['user']['userEmail'] ?></span>
+                            </p>
+                            <p class="phone d-flex items-center"> 
+                                <span>Телефон</span> 
+                                <span><?= $_SESSION['user']['userPhone'] ?></span>
+                            </p>
                         </div>
+                        <a href="change_data.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+                        </a>
                     </div>
                     <p><a class="btn btn-test <?= ($_SESSION['user']['login'] != 'admin') ? 'd-block' : 'd-none';?>"
-                            href="tests.php">Go to tests</a></p>
+                            href="tests.php">Пройти тестування</a></p>
                 </div>
                 <div class="results w-50">
-                    <table>
-                        <thead class="<?= ($_SESSION['user']['login'] != 'admin') ? 'd-table' : 'd-none';?>">
-                            <tr>
-                                <th>К-ть правильних відповідей</th>
-                                <th>% правильних відповідей</th>
-                                <th>Дата та час </th>
-                            </tr>
-                        </thead>
-                        <thead class="<?= ($_SESSION['user']['login'] == 'admin') ? 'd-table' : 'd-none';?>">
-                            <tr>
-                                <th>Фото</th>
-                                <th>Логін</th>
-                                <th>Телефон</th>
-                                <th>Емейл</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php require_once 'table_check.php'; ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <?php if (isset($sum)) { ?>
-                                    <th colspan="3">Середній результат у % <?= $sum ?></th>
+                    <?php if ($_SESSION['user']['login'] != 'admin') { ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>К-ть правильних відповідей</th>
+                                    <th>% правильних відповідей</th>
+                                    <th>Дата та час </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($userResults as $res) { ?>
+                                    <tr class="<?= ($res[2] == $max) ? 'max_result' : ''; ?>">
+                                        <td><?= $res[1] ?></td>
+                                        <td><?= $res[2] ?></td>
+                                        <td><?= $res[3] ?></td>
+                                    </tr>
                                 <?php } ?>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <?php if (isset($sum)) { ?>
+                                        <th colspan="3">Середній результат у %: <?= $sum ?></th>
+                                    <?php } ?>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    <?php } else { ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Фото</th>
+                                    <th>Логін</th>
+                                    <th>Телефон</th>
+                                    <th>Емейл</th>
+                                    <th>Результати</th>
+                                    <th>Видалити</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data as $keyData => $user) { ?>
+                                    <?php if($user[0] != "admin") { ?>
+                                        <tr>
+                                            <td class="avatar-table"><img src="img/<?= $user[4] ?? 'ava.svg' ?>" alt="<?= $user[4] ?? 'ava.svg' ?>"></td>
+                                            <td><?= $user[0] ?></td>
+                                            <td><?= $user[2] ?></td>
+                                            <td><?= $user[3] ?></td>
+                                            <td>
+                                                <form action="result_table.php" method="get">
+                                                    <input type="hidden" name="userId" value="<?= $user[0]; ?>">
+                                                    <button type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="#fff"><path d="m576-160-56-56 104-104-104-104 56-56 104 104 104-104 56 56-104 104 104 104-56 56-104-104-104 104Zm79-360L513-662l56-56 85 85 170-170 56 57-225 226ZM80-280v-80h360v80H80Zm0-320v-80h360v80H80Z"/></svg></button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form action="profile.php" method="post">
+                                                    <input type="hidden" name="delete" value="<?= $user[0]; ?>">
+                                                    <button type="submit">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr> 
+                                    <?php } ?>
+                                <?php } ?>
+                            </tbody>
+                            
+                        </table>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+<!-- додати редагування данних користувача -->

@@ -3,31 +3,46 @@
     if(session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    $noEnter = true;
-    if(isset($_POST['login'])) {
-        if(file_exists('csv/users.csv')) {
-            $dataUsers = file_read('users');
+    $regError = "";
+    try {
+        if(!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['userPhone']) && !empty($_POST['userEmail'])) {
+            $noEnter = true;
+            $dataUsers = file_read('users', 'a+');
             foreach ($dataUsers as $users) {
-                if($_POST['userEmail'] == $users[3] && $_POST['login'] == $users[0]) {
+                if($_POST['login'] == $users[0]) {
                     $noEnter = false;
-                    echo "Такий користувач вже зареєстрований";
-                } else {
-                    $noEnter = true;
+                    throw new Exception("Такий login вже зареєстрований"); 
+                    break;
+                }
+                if($_POST['userEmail'] == $users[3]) {
+                    $noEnter = false;
+                    throw new Exception("Такий email вже зареєстрований"); 
+                    break;
                 }
             }
+            // echo "<pre>";
+            // var_dump($dataUsers);
+            if($noEnter) {
+                $data[] = $_POST['login'];
+                $data[] = $_POST['password'];
+                $data[] = $_POST['userPhone'];
+                $data[] = $_POST['userEmail'];
+
+                if(!empty($_FILES['avatar']['name'])) {
+                    $pathArr = explode('/', $_FILES['avatar']['type']);
+                    $imgName = $_POST['login'] . "." . $pathArr[1];
+                    $data[] = $imgName;
+                    move_uploaded_file($_FILES['avatar']['tmp_name'], 'img/' . $imgName);
+                }
+                file_rewrite('users', $data);
+                header("Location: enter.php");
+            }
+            
+
+        } else {
+            throw new Exception("Заповніть всі необхідні поля!");
         }
-        $data[] = $_POST['login'];
-        $data[] = $_POST['password'];
-        $data[] = $_POST['userPhone'];
-        $data[] = $_POST['userEmail'];
-        $pathArr = explode('/', $_FILES['avatar']['type']);
-        $imgName = $_POST['login'] . "." . $pathArr[1];
-
-        $data[] = $imgName;
-        
-        file_rewrite('users', $data);
-        move_uploaded_file($_FILES['avatar']['tmp_name'], 'img/' . $imgName);
-        
-
+    } catch(Exception $e) {
+        $regError = $e->getMessage();
     }
 ?>

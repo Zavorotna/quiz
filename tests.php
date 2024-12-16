@@ -1,7 +1,6 @@
 <?php
 require_once 'results_check.php';
 require_once 'tests_check.php';
-// session_destroy();
 
 ?>
 <!doctype html>
@@ -16,7 +15,7 @@ require_once 'tests_check.php';
 </head>
 <body class="wrapper <?= $_COOKIE['theme'] ?? "" ?>">
 <?php if(!$_SESSION['user']['login']) {
-    header('Location: registration.php');
+    header('Location: enter.php');
 } 
 ?>
 <h1>Тестування</h1>
