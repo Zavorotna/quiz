@@ -8,8 +8,6 @@ $data = file_read('users');
 
 foreach ($data as $ind => $user) {
     if ($_SESSION['user']['login'] == $user[0]) {
-        // $data[$ind][0] = isset($_POST['login']) ? $_POST['login'] : $user[0];
-        // $_SESSION['user']['login'] = $data[$ind][0];
 
         $data[$ind][2] = isset($_POST['userPhone']) ? $_POST['userPhone'] : $user[2];
         $_SESSION['user']['userPhone'] = $data[$ind][2];
@@ -17,7 +15,6 @@ foreach ($data as $ind => $user) {
         $data[$ind][3] = isset($_POST['userEmail']) ? $_POST['userEmail'] : $user[3];
         $_SESSION['user']['userEmail'] = $data[$ind][3];
 
-        // var_dump("img/" . $data[$ind][4]);
         if(!empty($_FILES['avatar']['name'])) {
             $pathArr = explode('/', $_FILES['avatar']['type']);
             $imgName = $_SESSION['user']['login'] . "." . $pathArr[1];

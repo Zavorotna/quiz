@@ -15,12 +15,12 @@
         <form class="wrapper" action="" method="post">
             <p>
                 <label>
-                    <input type="text" placeholder="Введіть логін" name="login" value="<?= $_POST['login'] ?? '' ?>" required>
+                    <input type="text" placeholder="Введіть логін" name="login" value="<?= $_POST['login'] ?? '' ?>">
                 </label>
             </p>
             <p>
                 <label>
-                    <input type="password" placeholder="Введіть пароль" name="password" required>
+                    <input type="password" placeholder="Введіть пароль" name="password">
                 </label>
             </p>
             <span class="error"> <?= $errorEnter ?></span>

@@ -4,25 +4,30 @@
     }
     require_once 'functions.php';
     $errorEnter = "";
-    if (isset($_POST['login'])) {
-        $data = file_read('users');
-        $isUser = false;
-        foreach ($data as $user) {
-            if ($_POST['login'] == $user[0] && $_POST['password'] == $user[1]) { 
-                $_SESSION['user']['login'] = $user[0];
-                $_SESSION['user']['userPhone'] = $user[2];
-                $_SESSION['user']['userEmail'] = $user[3];
-                $_SESSION['user']['avatar'] = $user[4] ?? "";
-                $isUser = true;
-                header("Location: profile.php");
-                break;
+    try {
+        if($_POST) {
+            if (!empty($_POST['login']) && !empty($_POST['password'])) {
+                $data = file_read('users');
+                foreach ($data as $ind => $user) {
+                    if ($_POST['login'] == $user[0] && password_verify($_POST['password'], $user[1])) { 
+                        $_SESSION['user']['login'] = $user[0];
+                        $_SESSION['user']['userPhone'] = $user[2];
+                        $_SESSION['user']['userEmail'] = $user[3];
+                        $_SESSION['user']['avatar'] = $user[4] ?? "";
+                        header("Location: profile.php");
+                        break;
+                    } else {
+                        if((count($data) - 1) == $ind) {
+                            throw new Exception("Пароль або логін введено некоректно, введіть коректні дані");
+                        }
+                    }
+                }
             } else {
-                $errorEnter = "Пароль введено некоректно, введіть коректні дані";
+                throw new Exception('Заповніть всі поля');
             }
         }
-        
-    } 
-    if(isset($_SESSION['user']['login'])) {
-        $isUser = true;
+    } catch(Exception $e) {
+        $errorEnter = $e->getMessage();
+
     }
 ?>
